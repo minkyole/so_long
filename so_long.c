@@ -61,32 +61,31 @@ int main(int argc, char **argv)
 //2. win 구조체만들기
 //3. 유저 구조체 만들기 이동해야됨
 
-#define KEY_ESC			53
-#define KEY_W				13
-#define KEY_S				1
-#define KEY_A				0
-#define KEY_D				2
-#define PRESS_RED_BUTTON	17
+#define KEY_ESC		53
+#define KEY_UP		126
+#define KEY_DOWN	125
+#define KEY_LEFT	123
+#define KEY_RIGHT	124
 
 int	key_press(int keycode, t_param *maps)
 // 입력에따라 좌표로 사용할 값을 증감시킴
 {
-	if (keycode == KEY_W && (maps->map)[maps->user.x - maps->win_width - 1] == '0')
+	if (keycode == KEY_UP && (maps->map)[maps->user.x - maps->win_width - 1] == '0')
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x - maps->win_width - 1] = 'P';
 	}
-	else if (keycode == KEY_S && (maps->map)[maps->user.x + maps->win_width + 1] == '0')
+	else if (keycode == KEY_DOWN && (maps->map)[maps->user.x + maps->win_width + 1] == '0')
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x + maps->win_width + 1] = 'P';
 	}
-	else if (keycode == KEY_A && (maps->map)[maps->user.x - 1] == '0')
+	else if (keycode == KEY_LEFT && (maps->map)[maps->user.x - 1] == '0')
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x - 1] = 'P';
 	}
-	else if (keycode == KEY_D && (maps->map)[maps->user.x + 1] == '0')
+	else if (keycode == KEY_RIGHT && (maps->map)[maps->user.x + 1] == '0')
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x + 1] = 'P';
