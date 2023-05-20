@@ -26,6 +26,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		if (parr == 0)
 			return (0);
 		ft_memcpy(parr, (char *)s2, ft_strlen(s2) + 1);
+		free ((char *)s2);
 		return (parr);
 	}
 	all_len += ft_strlen(s1) + ft_strlen(s2);
@@ -34,5 +35,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (0);
 	ft_memcpy(parr, (char *)s1, ft_strlen(s1));
 	ft_memcpy(parr + ft_strlen(s1), (char *)s2, ft_strlen(s2) + 1);
+	free ((char *)s1);
+	free ((char *)s2);
 	return (parr);
 }

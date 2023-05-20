@@ -12,8 +12,6 @@ typedef struct s_map
 	int x;
 	int y;
 	void	*image;
-	void	*g;
-	void	*w;
 } t_map;
 
 typedef struct s_param
@@ -32,83 +30,116 @@ typedef struct s_param
 	char	*map;
 }	t_param;
 
+typedef struct s_map_check
+{
+	int x;
+	int y;
+	int	player;
+	int dfs_c;
+	int	dfs_e;
+	int	c;
+	int p;
+	int e;
+	int *dfs_map;
+}	t_map_check;
+
 int	so_long(char *map);
 
-void	dfs(char *map, int x, int y, int player, int *c, int *e, int *dfs_map)
+void	dfs(char *map, t_map_check *map_check, int player)
 {
-	dfs_map[player] = 1;
+	map_check->dfs_map[player] = 1;
 	if (map[player] == 'C')
-		*c += 1;
+		map_check->dfs_c += 1;
 	else if (map[player] == 'E')
-		*e += 1;
-	if (map[player - x - 1] != '1' && dfs_map[player - x - 1] != 1) // up
-		dfs(map, x, y, player - x - 1, c, e, dfs_map);
-	if (map[player + 1] != '1' && dfs_map[player + 1] != 1) // right
-		dfs(map, x, y, player + 1, c, e, dfs_map);
-	if (map[player - 1] != '1' && dfs_map[player - 1] != 1) // left
-		dfs(map, x, y, player - 1, c, e, dfs_map);
-	if (map[player + x + 1] != '1' && dfs_map[player + x + 1] != 1) // down
-		dfs(map, x, y, player + x + 1, c, e, dfs_map);
+		map_check->dfs_e += 1;
+	if (map[player - map_check->x - 1] != '1' && map_check->dfs_map[player - map_check->x - 1] != 1) // up
+		dfs(map, map_check, player - map_check->x - 1);
+	if (map[player + 1] != '1' && map_check->dfs_map[player + 1] != 1) // right
+		dfs(map, map_check, player + 1);
+	if (map[player - 1] != '1' && map_check->dfs_map[player - 1] != 1) // left
+		dfs(map, map_check, player - 1);
+	if (map[player + map_check->x + 1] != '1' && map_check->dfs_map[player + map_check->x + 1] != 1) // down
+		dfs(map, map_check, player + map_check->x + 1);
 }
 
-int	check_map(char *map, int c, int p, int e)
+int	check_map_closed(char *map, t_map_check *map_check, int i)
 {
-	int i;
-	int x;
-	int y = 0;
-	int	player;
-	int dfs_c = 0;
-	int	dfs_e = 0;
-	int *dfs_map;
-
-	x = -1;
-	i = 0;
 	while (map[i])
 	{
-		if (map[i] == 'C')
-			c++;
-		else if (map[i] == 'P')
-		{
-			player = i;
-			p++;
-		}
-		else if (map[i] == 'E')
-			e++;
-		else if (map[i] == '0' || map[i] == '1')
-			;
-		else if (map[i] == '\n')
-			y++;
-		else
-			return(1);
-		i++;
-	}
-	if (p > 1 || e > 1)
-		return (1);
-	x = (i - y) / y;
-	i = 0;
-	while (map[i])
-	{
-		if (i < x && map[i] != '1')
+		if (i < map_check->x && map[i] != '1')
 			return (1);
-		else if (i % (x + 1) == 0 && map[i] != '1')
+		else if (i % (map_check->x + 1) == 0 && map[i] != '1')
 			return (1);
-		else if ((i % (x + 1)) == x - 1 && map[i] != '1')
+		else if ((i % (map_check->x + 1)) == map_check->x - 1 && map[i] != '1')
 			return (1);
-		else if (i >= (x + 1) * (y - 1) && i < ((x + 1) * y) - 1)
+		else if (i >= (map_check->x + 1) * (map_check->y - 1) && i < ((map_check->x + 1) * map_check->y) - 1)
 		{
 			if (map[i] != '1')
 				return (1);
 		}
 		i++;
 	}
-	dfs_map = ft_calloc(i, 4);
-	dfs(map, x, y, player, &dfs_c, &dfs_e, dfs_map);
-	if (dfs_c == c && dfs_e == e)
+	return (0);
+}
+
+int check_map_item(char *map, t_map_check *map_check, int i)
+{
+	while (map[i])
 	{
-		free(dfs_map);
+		if (map[i] == 'C')
+			map_check->c += 1;
+		else if (map[i] == 'P')
+		{
+			map_check->player = i;
+			map_check->p += 1;
+		}
+		else if (map[i] == 'E')
+			map_check->e += 1;
+		else if (map[i] == '0' || map[i] == '1')
+			;
+		else if (map[i] == '\n')
+			map_check->y += 1;
+		else
+			return(1);
+		i++;
+	}
+	if (map_check->p != 1 || map_check->e != 1 || map_check->c <= 0)
+		return (1);
+	return (0);
+}
+
+void init_map(t_map_check *map_check)
+{
+	map_check->x = 0;
+	map_check->y = 0;
+	map_check->player = 0;
+	map_check->dfs_c = 0;
+	map_check->dfs_e = 0;
+	map_check->c = 0;
+	map_check->p = 0;
+	map_check->e = 0;
+}
+
+int	check_map(char *map)
+{
+	t_map_check map_check;
+
+	init_map(&map_check);
+	if (check_map_item(map, &map_check, 0))
+		return (1);
+	map_check.x = (ft_strlen(map) - map_check.y) / map_check.y;
+	if (check_map_closed(map, &map_check, 0))
+		return (1);
+	map_check.dfs_map = ft_calloc(ft_strlen(map), 4);
+	if (map_check.dfs_map == NULL)
+		return (1);
+	dfs(map, &map_check, map_check.player);
+	if (map_check.dfs_c == map_check.c && map_check.dfs_e == map_check.e)
+	{
+		free(map_check.dfs_map);
 		return (0);
 	}
-	free(dfs_map);
+	free(map_check.dfs_map);
 	return (1);
 }
 
@@ -122,13 +153,46 @@ int	check_map_name(char *arr)
 	return (1);
 }
 
+//void   check_leak(void)
+//{
+//		system("leaks a.out");
+//}
+
+void main2(int fd, unsigned long long len)
+{
+	char *parr;
+	char	*map;
+
+	parr = get_next_line(fd);
+	map = parr;
+	len = ft_strlen(map);
+	while (parr)
+	{
+		if (len != ft_strlen(parr))
+		{
+			if (!(len -1 == ft_strlen(map) && get_next_line(fd) == NULL))
+			{
+				ft_printf("Error\nMap Input Error");
+				exit(0);
+			}
+		}
+		parr = get_next_line(fd);
+		map = ft_strjoin(map, parr);
+	}
+	if (check_map(map))
+	{
+		ft_printf("Error\nMap Input Error");
+		exit(0);
+	}
+	so_long(map);
+	free (map);
+}
+
 int main(int argc, char **argv)
 {
 	int	fd;
-	char	*parr;
-	char	*map;
-	unsigned long long	len;
 
+//	atexit(check_leak);
 	if (argc == 2)
 	{
 		if (check_map_name(argv[1]))
@@ -140,29 +204,7 @@ int main(int argc, char **argv)
 				ft_printf("Error\nMap Open Error");
 			else
 			{
-				parr = get_next_line(fd);
-				map = parr;
-				len = ft_strlen(map);
-				while (parr)
-				{
-					if (len != ft_strlen(parr))
-					{
-						if (!(len -1 == ft_strlen(map) && get_next_line(fd) == NULL))
-						{
-							ft_printf("Error\nMap Input Error");
-							exit(0);
-						}
-					}
-					parr = get_next_line(fd);
-					map = ft_strjoin(map, parr);
-				}
-				printf("%s", map);
-				if (check_map(map, 0, 0, 0))
-				{
-					ft_printf("Error\nMap Input Error");
-					exit(0);
-				}
-				so_long(map);
+				main2(fd, 0);
 			}
 		}
 	}
