@@ -28,6 +28,7 @@ typedef struct s_param
 	size_t	fd;
 	int		win_width;
 	int		win_height;
+	int		collection;
 	char	*map;
 }	t_param;
 
@@ -67,29 +68,89 @@ int main(int argc, char **argv)
 #define KEY_LEFT	123
 #define KEY_RIGHT	124
 
-int	key_press(int keycode, t_param *maps)
-// 입력에따라 좌표로 사용할 값을 증감시킴
+int move_land(int keycode, t_param *maps)
 {
 	if (keycode == KEY_UP && (maps->map)[maps->user.x - maps->win_width - 1] == '0')
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x - maps->win_width - 1] = 'P';
+		return (1);
 	}
 	else if (keycode == KEY_DOWN && (maps->map)[maps->user.x + maps->win_width + 1] == '0')
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x + maps->win_width + 1] = 'P';
+		return (1);
 	}
 	else if (keycode == KEY_LEFT && (maps->map)[maps->user.x - 1] == '0')
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x - 1] = 'P';
+		return (1);
 	}
 	else if (keycode == KEY_RIGHT && (maps->map)[maps->user.x + 1] == '0')
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x + 1] = 'P';
+		return (1);
 	}
+	return (0);
+}
+
+int move_chase(int keycode, t_param *maps)
+{
+	if (keycode == KEY_UP && (maps->map)[maps->user.x - maps->win_width - 1] == 'C')
+	{
+		(maps->map)[maps->user.x] = '0';
+		(maps->map)[maps->user.x - maps->win_width - 1] = 'P';
+		return (1);
+	}
+	else if (keycode == KEY_DOWN && (maps->map)[maps->user.x + maps->win_width + 1] == 'C')
+	{
+		(maps->map)[maps->user.x] = '0';
+		(maps->map)[maps->user.x + maps->win_width + 1] = 'P';
+		return (1);
+	}
+	else if (keycode == KEY_LEFT && (maps->map)[maps->user.x - 1] == 'C')
+	{
+		(maps->map)[maps->user.x] = '0';
+		(maps->map)[maps->user.x - 1] = 'P';
+		return (1);
+	}
+	else if (keycode == KEY_RIGHT && (maps->map)[maps->user.x + 1] == 'C')
+	{
+		(maps->map)[maps->user.x] = '0';
+		(maps->map)[maps->user.x + 1] = 'P';
+		return (1);
+	}
+	return (0);
+}
+
+int move_potal(int keycode, t_param *maps)
+{
+	if (keycode == KEY_UP && (maps->map)[maps->user.x - maps->win_width - 1] == 'E' && maps->collection == 0)
+		return (1);
+	else if (keycode == KEY_DOWN && (maps->map)[maps->user.x + maps->win_width + 1] == 'E' && maps->collection == 0)
+		return (1);
+	else if (keycode == KEY_LEFT && (maps->map)[maps->user.x - 1] == 'E' && maps->collection == 0)
+		return (1);
+	else if (keycode == KEY_RIGHT && (maps->map)[maps->user.x + 1] == 'E' && maps->collection == 0)
+		return (1);
+	return (0);
+}
+
+int	key_press(int keycode, t_param *maps)
+// 입력에따라 좌표로 사용할 값을 증감시킴
+{
+	if (move_land(keycode, maps))
+		;
+	else if (move_chase(keycode, maps))
+	{
+		maps->collection -= 1;
+		ft_printf ("maps colletion %d \n", maps->collection);
+	}
+	else if (move_potal(keycode, maps))
+		exit(0);
 	else if (keycode == KEY_ESC)
 		exit(0);
 	printf("y: %d x: %d\n", (maps->user).y, (maps->user).x);
@@ -126,18 +187,23 @@ void	map_cnt(char *temp, t_param *maps)
 	int x;
 	int y;
 	int i;
+	int c;
 
 	i = 0;
 	y = 0;
+	c = 0;
 	while (temp[i])
 	{
 		if (temp[i] == '\n')
 			y++;
+		else if (temp[i] == 'C')
+			c++;
 		i++;
 	}
 	x = (i - y) / y;
 	maps->win_width = x;
 	maps->win_height = y;
+	maps->collection = c;
 }
 
 int	so_long(char *game_map)
