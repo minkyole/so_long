@@ -124,6 +124,16 @@ int	check_map(char *map, int c, int p, int e)
 	return (1);
 }
 
+int	check_map_name(char *arr)
+{
+	unsigned long long len = ft_strlen(arr);
+	if (len <= 4)
+		return (0);
+	if (arr[len - 1] == 'r' && arr[len - 2] == 'e' && arr[len - 3] == 'b' && arr[len - 4] == '.')
+		return (1);
+	return (0);
+}
+
 int main(int argc, char **argv)
 {
 	int	fd;
@@ -134,7 +144,7 @@ int main(int argc, char **argv)
 	if (argc == 2)
 	{
 		fd = open(argv[1], O_RDONLY);
-		if (fd != -1)
+		if (fd != -1 && check_map_name(argv[1]))
 		{
 			parr = get_next_line(fd);
 			map = parr;
@@ -144,7 +154,10 @@ int main(int argc, char **argv)
 				if (len != ft_strlen(parr))
 				{
 					if (!(len -1 == ft_strlen(map) && get_next_line(fd) == NULL))
+					{
+						ft_printf("error\nmep_error");
 						exit(0);
+					}
 				}
 				parr = get_next_line(fd);
 				map = ft_strjoin(map, parr);
