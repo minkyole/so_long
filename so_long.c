@@ -89,27 +89,15 @@ int	check_map(char *map, int c, int p, int e)
 	while (map[i])
 	{
 		if (i < x && map[i] != '1')
-		{
-			ft_printf("up error\n");
 			return (1);
-		}
 		else if (i % (x + 1) == 0 && map[i] != '1')
-		{
-			ft_printf("left error\n");
 			return (1);
-		}
 		else if ((i % (x + 1)) == x - 1 && map[i] != '1')
-		{
-			ft_printf("right error\n");
 			return (1);
-		}
 		else if (i >= (x + 1) * (y - 1) && i < ((x + 1) * y) - 1)
 		{
 			if (map[i] != '1')
-			{
-				ft_printf("down error\n");
 				return (1);
-			}
 		}
 		i++;
 	}
@@ -128,10 +116,10 @@ int	check_map_name(char *arr)
 {
 	unsigned long long len = ft_strlen(arr);
 	if (len <= 4)
-		return (0);
-	if (arr[len - 1] == 'r' && arr[len - 2] == 'e' && arr[len - 3] == 'b' && arr[len - 4] == '.')
 		return (1);
-	return (0);
+	if (arr[len - 1] == 'r' && arr[len - 2] == 'e' && arr[len - 3] == 'b' && arr[len - 4] == '.')
+		return (0);
+	return (1);
 }
 
 int main(int argc, char **argv)
@@ -143,32 +131,39 @@ int main(int argc, char **argv)
 
 	if (argc == 2)
 	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd != -1 && check_map_name(argv[1]))
+		if (check_map_name(argv[1]))
+			ft_printf("Error\nMap Extension Error");
+		else
 		{
-			parr = get_next_line(fd);
-			map = parr;
-			len = ft_strlen(map);
-			while (parr)
+			fd = open(argv[1], O_RDONLY);
+			if (fd == -1)
+				ft_printf("Error\nMap Open Error");
+			else
 			{
-				if (len != ft_strlen(parr))
-				{
-					if (!(len -1 == ft_strlen(map) && get_next_line(fd) == NULL))
-					{
-						ft_printf("error\nmep_error");
-						exit(0);
-					}
-				}
 				parr = get_next_line(fd);
-				map = ft_strjoin(map, parr);
+				map = parr;
+				len = ft_strlen(map);
+				while (parr)
+				{
+					if (len != ft_strlen(parr))
+					{
+						if (!(len -1 == ft_strlen(map) && get_next_line(fd) == NULL))
+						{
+							ft_printf("Error\nMap Input Error");
+							exit(0);
+						}
+					}
+					parr = get_next_line(fd);
+					map = ft_strjoin(map, parr);
+				}
+				printf("%s", map);
+				if (check_map(map, 0, 0, 0))
+				{
+					ft_printf("Error\nMap Input Error");
+					exit(0);
+				}
+				so_long(map);
 			}
-			printf("%s", map);
-			if (check_map(map, 0, 0, 0))
-			{
-				ft_printf("error\nmap error");
-				exit(0);
-			}
-			so_long(map);
 		}
 	}
 }
