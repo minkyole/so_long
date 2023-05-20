@@ -329,6 +329,11 @@ void	map_cnt(char *temp, t_param *maps)
 	maps->move_cnt = 0;
 }
 
+int red_botton_delete(void)
+{
+	exit(0);
+}
+
 int	so_long(char *game_map)
 {
 	t_param	maps;
@@ -348,6 +353,8 @@ int	so_long(char *game_map)
     //키보드 입력을 받아줌
 	mlx_loop_hook(maps.mlx, &draw, &maps);
     //이미지를 지우고 다시 그려주는 draw함수를 이벤트마다 실행해줌
+	mlx_hook(maps.win, 17, 0, &red_botton_delete, &maps); 
+	//red버튼이 눌러졋을때 프로그램을 종료해 준다
 	mlx_loop(maps.mlx);
 	return (0);
 }
