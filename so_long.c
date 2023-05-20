@@ -34,11 +34,102 @@ typedef struct s_param
 
 int	so_long(char *map);
 
+void	dfs(char *map, int x, int y, int player, int *c, int *e, int *dfs_map)
+{
+	dfs_map[player] = 1;
+	if (map[player] == 'C')
+		*c += 1;
+	else if (map[player] == 'E')
+		*e += 1;
+	if (map[player - x - 1] != '1' && dfs_map[player - x - 1] != 1) // up
+		dfs(map, x, y, player - x - 1, c, e, dfs_map);
+	if (map[player + 1] != '1' && dfs_map[player + 1] != 1) // right
+		dfs(map, x, y, player + 1, c, e, dfs_map);
+	if (map[player - 1] != '1' && dfs_map[player - 1] != 1) // left
+		dfs(map, x, y, player - 1, c, e, dfs_map);
+	if (map[player + x + 1] != '1' && dfs_map[player + x + 1] != 1) // down
+		dfs(map, x, y, player + x + 1, c, e, dfs_map);
+}
+
+int	check_map(char *map, int c, int p, int e)
+{
+	int i;
+	int x;
+	int y = 0;
+	int	player;
+	int dfs_c = 0;
+	int	dfs_e = 0;
+	int *dfs_map;
+
+	x = -1;
+	i = 0;
+	while (map[i])
+	{
+		if (map[i] == 'C')
+			c++;
+		else if (map[i] == 'P')
+		{
+			player = i;
+			p++;
+		}
+		else if (map[i] == 'E')
+			e++;
+		else if (map[i] == '0' || map[i] == '1')
+			;
+		else if (map[i] == '\n')
+			y++;
+		else
+			return(1);
+		i++;
+	}
+	if (p > 1 || e > 1)
+		return (1);
+	x = (i - y) / y;
+	i = 0;
+	while (map[i])
+	{
+		if (i < x && map[i] != '1')
+		{
+			ft_printf("up error\n");
+			return (1);
+		}
+		else if (i % (x + 1) == 0 && map[i] != '1')
+		{
+			ft_printf("left error\n");
+			return (1);
+		}
+		else if ((i % (x + 1)) == x - 1 && map[i] != '1')
+		{
+			ft_printf("right error\n");
+			return (1);
+		}
+		else if (i >= (x + 1) * (y - 1) && i < ((x + 1) * y) - 1)
+		{
+			if (map[i] != '1')
+			{
+				ft_printf("down error\n");
+				return (1);
+			}
+		}
+		i++;
+	}
+	dfs_map = ft_calloc(i, 4);
+	dfs(map, x, y, player, &dfs_c, &dfs_e, dfs_map);
+	if (dfs_c == c && dfs_e == e)
+	{
+		free(dfs_map);
+		return (0);
+	}
+	free(dfs_map);
+	return (1);
+}
+
 int main(int argc, char **argv)
 {
 	int	fd;
 	char	*parr;
-	char	*temp;
+	char	*map;
+	unsigned long long	len;
 
 	if (argc == 2)
 	{
@@ -46,14 +137,25 @@ int main(int argc, char **argv)
 		if (fd != -1)
 		{
 			parr = get_next_line(fd);
-			temp = parr;
+			map = parr;
+			len = ft_strlen(map);
 			while (parr)
 			{
+				if (len != ft_strlen(parr))
+				{
+					if (!(len -1 == ft_strlen(map) && get_next_line(fd) == NULL))
+						exit(0);
+				}
 				parr = get_next_line(fd);
-				temp = ft_strjoin(temp, parr);
+				map = ft_strjoin(map, parr);
 			}
-			printf("%s", temp);
-			so_long(temp);
+			printf("%s", map);
+			if (check_map(map, 0, 0, 0))
+			{
+				ft_printf("error\nmap error");
+				exit(0);
+			}
+			so_long(map);
 		}
 	}
 }
