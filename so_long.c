@@ -25,7 +25,7 @@ typedef struct s_param
 	t_map	potal;
 	void	*mlx;
 	void	*win;
-	size_t	fd;
+	int		move_cnt;
 	int		win_width;
 	int		win_height;
 	int		collection;
@@ -143,17 +143,24 @@ int	key_press(int keycode, t_param *maps)
 // 입력에따라 좌표로 사용할 값을 증감시킴
 {
 	if (move_land(keycode, maps))
-		;
+	{
+		maps->move_cnt += 1;
+		ft_printf("%d\n", maps->move_cnt);
+	}
 	else if (move_chase(keycode, maps))
 	{
+		maps->move_cnt += 1;
 		maps->collection -= 1;
-		ft_printf ("maps colletion %d \n", maps->collection);
+		ft_printf("%d\n", maps->move_cnt);
 	}
 	else if (move_potal(keycode, maps))
+	{
+		maps->move_cnt += 1;
+		ft_printf("%d\n", maps->move_cnt);
 		exit(0);
+	}
 	else if (keycode == KEY_ESC)
 		exit(0);
-	printf("y: %d x: %d\n", (maps->user).y, (maps->user).x);
 	return (0);
 }
 
@@ -204,6 +211,7 @@ void	map_cnt(char *temp, t_param *maps)
 	maps->win_width = x;
 	maps->win_height = y;
 	maps->collection = c;
+	maps->move_cnt = 0;
 }
 
 int	so_long(char *game_map)
