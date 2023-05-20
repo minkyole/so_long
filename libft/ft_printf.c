@@ -69,4 +69,3 @@ int	ft_printf(const char *msg, ...)
 	va_end(print);
 	return (member.len);
 }
-
