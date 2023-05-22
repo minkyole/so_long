@@ -29,11 +29,13 @@ void	user_move(t_param *maps, int flag)
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x - 1] = 'P';
+		maps->user.direction = 2;
 	}
 	else if (flag == 4)
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x + 1] = 'P';
+		maps->user.direction = 1;
 	}
 }
 
@@ -106,42 +108,4 @@ int	move_potal(int keycode, t_param *maps)
 			(maps->map)[maps->user.x + 1] == 'E' && maps->collection == 0)
 		return (1);
 	return (0);
-}
-
-int	check_enemy(int keycode, t_param *maps)
-{
-	if (keycode == KEY_UP && \
-			(maps->map)[maps->user.x - maps->win_width - 1] == 'G')
-		return (1);
-	else if (keycode == KEY_DOWN && \
-			(maps->map)[maps->user.x + maps->win_width + 1] == 'G')
-		return (1);
-	else if (keycode == KEY_LEFT && (maps->map)[maps->user.x - 1] == 'G')
-		return (1);
-	else if (keycode == KEY_RIGHT && (maps->map)[maps->user.x + 1] == 'G')
-		return (1);
-	return (0);
-}
-
-void check_enemy2(t_param *maps)
-{
-	int i;
-
-	i = 0;
-	while (maps->map[i])
-	{
-		if (maps->map[i] == 'G')
-		{
-			if(maps->map[i - maps->win_width - 1] == 'P')
-				exit(0);
-			else if(maps->map[i - maps->win_width + 1] == 'P')
-				exit(0);
-			else if(maps->map[i - 1] == 'P')
-				exit(0);
-			else if(maps->map[i + 1] == 'P')
-				exit(0);
-
-		}
-		i++;
-	}
 }

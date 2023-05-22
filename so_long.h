@@ -14,6 +14,7 @@
 # define SO_LONG_H
 # include "mlx/mlx.h"
 # include <fcntl.h>
+# include <time.h>
 # define KEY_ESC	53
 # define KEY_UP		126
 # define KEY_DOWN	125
@@ -26,11 +27,14 @@ typedef struct s_map
 	int		he;
 	int		x;
 	void	*image;
+	int		direction;
 }			t_map;
 
 typedef struct s_param
 {
+	//t_map	user;
 	t_map	user;
+	t_map	user_sprite[8];
 	t_map	wall;
 	t_map	land;
 	t_map	chase;
@@ -84,4 +88,6 @@ void			enemy_add(t_param *maps);
 void			enemy_move(t_param *maps, int enemy_position);
 void			move_enemy(t_param *maps, int flag, int enemy_position);
 void			enemy_set(t_param *maps);
+void			image_init(t_param *maps);
+void			draw_user(int cnt, t_param *maps, unsigned long long i, int direction);
 #endif

@@ -44,6 +44,8 @@ void	main2(int fd, unsigned long long len)
 	char	*map;
 
 	parr = get_next_line(fd);
+	if (parr == NULL)
+		error(1);
 	map = parr;
 	len = ft_strlen(map);
 	while (parr)
