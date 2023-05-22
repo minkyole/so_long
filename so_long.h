@@ -38,7 +38,7 @@ typedef struct s_param
 	t_map	wall;
 	t_map	land;
 	t_map	chase;
-	t_map	potal;
+	t_map	potal[2];
 //	t_map	enemy;
 	t_map	enemy_sprite[8];
 	void	*mlx;

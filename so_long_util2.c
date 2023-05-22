@@ -33,14 +33,12 @@ void	draw_image(int flag, t_param *maps, unsigned long long i)
 			i / (maps->win_width + 1) * 64);
 	else if (flag == 5)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
-			(maps->potal).image, i % (maps->win_width + 1) * 64, \
+			(maps->potal[0]).image, i % (maps->win_width + 1) * 64, \
 			i / (maps->win_width + 1) * 64);
-/*
 	else if (flag == 6)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
-			(maps->enemy).image, i % (maps->win_width + 1) * 64, \
+			(maps->potal[1]).image, i % (maps->win_width + 1) * 64, \
 			i / (maps->win_width + 1) * 64);
-			*/
 }
 
 void	draw_enemy_r(int cnt, t_param *maps, unsigned long long i)
@@ -143,6 +141,8 @@ int	draw(t_param *maps)
 		}
 		else if (maps->map[i] == 'C')
 			draw_image(4, maps, i);
+		else if (maps->map[i] == 'E' && maps->collection == 0)
+			draw_image(6, maps, i);
 		else if (maps->map[i] == 'E')
 			draw_image(5, maps, i);
 		else if (maps->map[i] == 'R')
@@ -193,8 +193,10 @@ void	image_init(t_param *maps)
 			"texture/0.xpm", &maps->land.he, &maps->land.he);
 	maps->chase.image = mlx_xpm_file_to_image(maps->mlx, \
 			"texture/c.xpm", &maps->chase.he, &maps->chase.he);
-	maps->potal.image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/e.xpm", &maps->potal.he, &maps->potal.he);
+	maps->potal[0].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/close_potal.xpm", &maps->potal[0].he, &maps->potal[0].he);
+	maps->potal[1].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/open_potal.xpm", &maps->potal[1].he, &maps->potal[1].he);
 	maps->enemy_sprite[0].image = mlx_xpm_file_to_image(maps->mlx, \
 			"texture/rg1.xpm", &maps->enemy_sprite[0].he, &maps->enemy_sprite[0].he);
 	maps->enemy_sprite[1].image = mlx_xpm_file_to_image(maps->mlx, \
