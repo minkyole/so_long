@@ -35,9 +35,51 @@ void	draw_image(int flag, t_param *maps, unsigned long long i)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
 			(maps->potal).image, i % (maps->win_width + 1) * 64, \
 			i / (maps->win_width + 1) * 64);
+/*
 	else if (flag == 6)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
 			(maps->enemy).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+			*/
+}
+
+void	draw_enemy_r(int cnt, t_param *maps, unsigned long long i)
+{
+	if (cnt % 80 <= 20)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[0]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 80 <= 40)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[1]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 80 <= 60)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[2]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[3]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+}
+
+void	draw_enemy_l(int cnt, t_param *maps, unsigned long long i)
+{
+	if (cnt % 80 <= 20)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[4]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 80 <= 40)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[5]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 80 <= 60)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[6]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[7]).image, i % (maps->win_width + 1) * 64, \
 			i / (maps->win_width + 1) * 64);
 }
 
@@ -103,8 +145,10 @@ int	draw(t_param *maps)
 			draw_image(4, maps, i);
 		else if (maps->map[i] == 'E')
 			draw_image(5, maps, i);
-		else if (maps->map[i] == 'G')
-			draw_image(6, maps, i);
+		else if (maps->map[i] == 'R')
+			draw_enemy_r(cnt, maps, i);
+		else if (maps->map[i] == 'L')
+			draw_enemy_l(cnt, maps, i);
 		i++;
 	}
 	cnt++;
@@ -151,16 +195,30 @@ void	image_init(t_param *maps)
 			"texture/c.xpm", &maps->chase.he, &maps->chase.he);
 	maps->potal.image = mlx_xpm_file_to_image(maps->mlx, \
 			"texture/e.xpm", &maps->potal.he, &maps->potal.he);
-	maps->enemy.image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/enemy.xpm", &maps->enemy.he, &maps->enemy.he);
+	maps->enemy_sprite[0].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/rg1.xpm", &maps->enemy_sprite[0].he, &maps->enemy_sprite[0].he);
+	maps->enemy_sprite[1].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/rg2.xpm", &maps->enemy_sprite[1].he, &maps->enemy_sprite[1].he);
+	maps->enemy_sprite[2].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/rg3.xpm", &maps->enemy_sprite[2].he, &maps->enemy_sprite[2].he);
+	maps->enemy_sprite[3].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/rg4.xpm", &maps->enemy_sprite[3].he, &maps->enemy_sprite[3].he);
+	maps->enemy_sprite[4].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/lg1.xpm", &maps->enemy_sprite[4].he, &maps->enemy_sprite[4].he);
+	maps->enemy_sprite[5].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/lg2.xpm", &maps->enemy_sprite[5].he, &maps->enemy_sprite[5].he);
+	maps->enemy_sprite[6].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/lg3.xpm", &maps->enemy_sprite[6].he, &maps->enemy_sprite[6].he);
+	maps->enemy_sprite[7].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/lg4.xpm", &maps->enemy_sprite[7].he, &maps->enemy_sprite[7].he);
 	maps->user_sprite[0].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/p1.xpm", &maps->user_sprite[0].he, &maps->user_sprite[0].he);
+			"texture/rp1.xpm", &maps->user_sprite[0].he, &maps->user_sprite[0].he);
 	maps->user_sprite[1].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/p2.xpm", &maps->user_sprite[1].he, &maps->user_sprite[1].he);
+			"texture/rp2.xpm", &maps->user_sprite[1].he, &maps->user_sprite[1].he);
 	maps->user_sprite[2].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/p3.xpm", &maps->user_sprite[2].he, &maps->user_sprite[2].he);
+			"texture/rp3.xpm", &maps->user_sprite[2].he, &maps->user_sprite[2].he);
 	maps->user_sprite[3].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/p4.xpm", &maps->user_sprite[3].he, &maps->user_sprite[3].he);
+			"texture/rp4.xpm", &maps->user_sprite[3].he, &maps->user_sprite[3].he);
 	maps->user_sprite[4].image = mlx_xpm_file_to_image(maps->mlx, \
 			"texture/lp1.xpm", &maps->user_sprite[4].he, &maps->user_sprite[4].he);
 	maps->user_sprite[5].image = mlx_xpm_file_to_image(maps->mlx, \

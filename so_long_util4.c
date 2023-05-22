@@ -49,15 +49,17 @@ void	enemy_set(t_param *maps)
 	i = 0;
 	while (maps->map[i])
 	{
-		if (maps->map[i] == 'G')
+		if (maps->map[i] == 'R' || maps->map[i] == 'L')
 			enemy_move(maps, i);
 		i++;
 	}
 	i = 0;
 	while (maps->map[i])
 	{
-		if (maps->map[i] == 'g')
-			maps->map[i] = 'G';
+		if (maps->map[i] == 'r')
+			maps->map[i] = 'R';
+		else if (maps->map[i] == 'l')
+			maps->map[i] = 'L';
 		i++;
 	}
 }
@@ -67,22 +69,22 @@ void	move_enemy(t_param *maps, int flag, int enemy_position)
 	if (flag == 1)
 	{
 		(maps->map)[enemy_position] = '0';
-		(maps->map)[enemy_position - maps->win_width - 1] = 'g';
+		(maps->map)[enemy_position - maps->win_width - 1] = 'l';
 	}
 	else if (flag == 2)
 	{
 		(maps->map)[enemy_position] = '0';
-		(maps->map)[enemy_position + maps->win_width + 1] = 'g';
+		(maps->map)[enemy_position + maps->win_width + 1] = 'r';
 	}
 	else if (flag == 3)
 	{
 		(maps->map)[enemy_position] = '0';
-		(maps->map)[enemy_position - 1] = 'g';
+		(maps->map)[enemy_position - 1] = 'l';
 	}
 	else if (flag == 4)
 	{
 		(maps->map)[enemy_position] = '0';
-		(maps->map)[enemy_position + 1] = 'g';
+		(maps->map)[enemy_position + 1] = 'r';
 	}
 }
 
@@ -133,7 +135,7 @@ void	enemy_add(t_param *maps)
 		enemy_position = rand() % ((maps->win_width + 1) * maps->win_height);
 		if ((maps->map)[enemy_position] == '0')
 		{
-			(maps->map)[enemy_position] = 'G';
+			(maps->map)[enemy_position] = 'L';
 			enemy--;
 		}
 	}

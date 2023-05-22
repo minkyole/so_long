@@ -39,7 +39,8 @@ typedef struct s_param
 	t_map	land;
 	t_map	chase;
 	t_map	potal;
-	t_map	enemy;
+//	t_map	enemy;
+	t_map	enemy_sprite[8];
 	void	*mlx;
 	void	*win;
 	int		move_cnt;
@@ -90,4 +91,6 @@ void			move_enemy(t_param *maps, int flag, int enemy_position);
 void			enemy_set(t_param *maps);
 void			image_init(t_param *maps);
 void			draw_user(int cnt, t_param *maps, unsigned long long i, int direction);
+void			draw_enemy_r(int cnt, t_param *maps, unsigned long long i);
+void			draw_enemy_l(int cnt, t_param *maps, unsigned long long i);
 #endif
