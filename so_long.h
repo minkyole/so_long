@@ -76,5 +76,6 @@ int		red_botton_delete(void);
 int		so_long(char *game_map);
 void	draw_image(int flag, t_param *maps, unsigned long long i);
 void	user_move(t_param *maps, int flag);
+void	error(int flag);
 
 #endif

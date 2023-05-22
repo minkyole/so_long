@@ -13,7 +13,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework Appkit
-NAME = a.out
+NAME = so_long
 LIBFT = ./libft/libft.a
 LIBFT_DIR = libft
 SRCS = so_long.c so_long_util1.c so_long_util2.c so_long_util3.c so_long_util4.c

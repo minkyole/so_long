@@ -16,14 +16,14 @@
 void	error(int flag)
 {
 	if (flag == 1)
-	{
 		ft_printf("Error\nMap Input Error");
-		exit(0);
-	}
 	else if (flag == 2)
 		ft_printf("Error\nMap Extension Error");
 	else if (flag == 3)
 		ft_printf("Error\nMap Open Error");
+	else if (flag == 4)
+		ft_printf("Error\nMap Size is Out of Scrren Size");
+	exit(0);
 }
 
 void	init_map(t_map_check *map_check)
@@ -79,4 +79,6 @@ int	main(int argc, char **argv)
 				main2(fd, 0);
 		}
 	}
+	else
+		error(1);
 }

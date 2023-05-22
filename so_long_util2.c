@@ -6,7 +6,7 @@
 /*   By: minkyole <minkyole@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:55:05 by minkyole          #+#    #+#             */
-/*   Updated: 2023/05/20 21:55:06 by minkyole         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:51:49 by minkyole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@ void	draw_image(int flag, t_param *maps, unsigned long long i)
 {
 	if (flag == 1)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
-			(maps->land).image, i % (maps->win_width + 1) * 32, \
-			i / (maps->win_width + 1) * 32);
+			(maps->land).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
 	else if (flag == 2)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
-			(maps->wall).image, i % (maps->win_width + 1) * 32, \
-			i / (maps->win_width + 1) * 32);
+			(maps->wall).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
 	else if (flag == 3)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
-			(maps->user).image, i % (maps->win_width + 1) * 32, \
-			i / (maps->win_width + 1) * 32);
+			(maps->user).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
 	else if (flag == 4)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
-			(maps->chase).image, i % (maps->win_width + 1) * 32, \
-			i / (maps->win_width + 1) * 32);
+			(maps->chase).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
 	else if (flag == 5)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
-			(maps->potal).image, i % (maps->win_width + 1) * 32, \
-			i / (maps->win_width + 1) * 32);
+			(maps->potal).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
 }
 
 int	draw(t_param *maps)
@@ -69,26 +69,27 @@ int	red_botton_delete(void)
 
 void	map_cnt(char *temp, t_param *maps)
 {
-	int	x;
-	int	y;
 	int	i;
-	int	c;
+	int	max_win_width;
+	int	max_win_height;
 
+	maps->win_height = 0;
+	maps->win_width = 0;
+	maps->collection = 0;
 	i = 0;
-	y = 0;
-	c = 0;
 	while (temp[i])
 	{
 		if (temp[i] == '\n')
-			y++;
+			maps->win_height += 1;
 		else if (temp[i] == 'C')
-			c++;
+			maps->collection += 1;
 		i++;
 	}
-	x = (i - y) / y;
-	maps->win_width = x;
-	maps->win_height = y;
-	maps->collection = c;
+	maps->win_width = (i - maps->win_height) / maps->win_height;
+	mlx_get_screen_size(maps->mlx, &max_win_width, &max_win_height);
+	if (max_win_width < maps->win_width * 64 || \
+	max_win_height < maps->win_height * 64)
+		error(4);
 	maps->move_cnt = 0;
 }
 
@@ -99,18 +100,18 @@ int	so_long(char *game_map)
 	maps.map = game_map;
 	map_cnt(maps.map, &maps);
 	maps.mlx = mlx_init();
-	maps.win = mlx_new_window(maps.mlx, maps.win_width * 32, \
-			maps.win_height * 32, "DrawMap");
+	maps.win = mlx_new_window(maps.mlx, maps.win_width * 64, \
+			maps.win_height * 64, "DrawMap");
 	maps.user.image = mlx_xpm_file_to_image(maps.mlx, \
-			"imgs/p.xpm", &maps.user.he, &maps.user.he);
+			"texture/p.xpm", &maps.user.he, &maps.user.he);
 	maps.wall.image = mlx_xpm_file_to_image(maps.mlx, \
-			"imgs/1.xpm", &maps.wall.he, &maps.wall.he);
+			"texture/1.xpm", &maps.wall.he, &maps.wall.he);
 	maps.land.image = mlx_xpm_file_to_image(maps.mlx, \
-			"imgs/0.xpm", &maps.land.he, &maps.land.he);
+			"texture/0.xpm", &maps.land.he, &maps.land.he);
 	maps.chase.image = mlx_xpm_file_to_image(maps.mlx, \
-			"imgs/c.xpm", &maps.chase.he, &maps.chase.he);
+			"texture/c.xpm", &maps.chase.he, &maps.chase.he);
 	maps.potal.image = mlx_xpm_file_to_image(maps.mlx, \
-			"imgs/e.xpm", &maps.potal.he, &maps.potal.he);
+			"texture/e.xpm", &maps.potal.he, &maps.potal.he);
 	maps.user.x = 0;
 	maps.user.y = 0;
 	mlx_key_hook(maps.win, &key_press, &maps);
