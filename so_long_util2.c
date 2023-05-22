@@ -35,6 +35,10 @@ void	draw_image(int flag, t_param *maps, unsigned long long i)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
 			(maps->potal).image, i % (maps->win_width + 1) * 64, \
 			i / (maps->win_width + 1) * 64);
+	else if (flag == 6)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
 }
 
 int	draw(t_param *maps)
@@ -57,6 +61,8 @@ int	draw(t_param *maps)
 			draw_image(4, maps, i);
 		else if (maps->map[i] == 'E')
 			draw_image(5, maps, i);
+		else if (maps->map[i] == 'G')
+			draw_image(6, maps, i);
 		i++;
 	}
 	return (0);
@@ -67,7 +73,7 @@ int	red_botton_delete(void)
 	exit(0);
 }
 
-void	map_cnt(char *temp, t_param *maps)
+void	map_cnt(t_param *maps)
 {
 	int	i;
 	int	max_win_width;
@@ -77,11 +83,11 @@ void	map_cnt(char *temp, t_param *maps)
 	maps->win_width = 0;
 	maps->collection = 0;
 	i = 0;
-	while (temp[i])
+	while (maps->map[i])
 	{
-		if (temp[i] == '\n')
+		if (maps->map[i] == '\n')
 			maps->win_height += 1;
-		else if (temp[i] == 'C')
+		else if (maps->map[i] == 'C')
 			maps->collection += 1;
 		i++;
 	}
@@ -98,7 +104,8 @@ int	so_long(char *game_map)
 	t_param	maps;
 
 	maps.map = game_map;
-	map_cnt(maps.map, &maps);
+	map_cnt(&maps);
+	enemy_add(&maps);
 	maps.mlx = mlx_init();
 	maps.win = mlx_new_window(maps.mlx, maps.win_width * 64, \
 			maps.win_height * 64, "DrawMap");
@@ -112,8 +119,9 @@ int	so_long(char *game_map)
 			"texture/c.xpm", &maps.chase.he, &maps.chase.he);
 	maps.potal.image = mlx_xpm_file_to_image(maps.mlx, \
 			"texture/e.xpm", &maps.potal.he, &maps.potal.he);
+	maps.enemy.image = mlx_xpm_file_to_image(maps.mlx, \
+			"texture/enemy.xpm", &maps.enemy.he, &maps.enemy.he);
 	maps.user.x = 0;
-	maps.user.y = 0;
 	mlx_key_hook(maps.win, &key_press, &maps);
 	mlx_loop_hook(maps.mlx, &draw, &maps);
 	mlx_hook(maps.win, 17, 0, &red_botton_delete, &maps);
