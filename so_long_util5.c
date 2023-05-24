@@ -98,17 +98,29 @@ void	enemy_sprite_init(t_param *maps)
 void	attack_sprite_init(t_param *maps)
 {
 	maps->attack_sprite[0].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/attack1.xpm", &maps->attack_sprite[0].he, &maps->attack_sprite[0].he);
+			"texture/right_attack1.xpm", &maps->attack_sprite[0].he, &maps->attack_sprite[0].he);
 	maps->attack_sprite[1].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/attack2.xpm", &maps->attack_sprite[1].he, &maps->attack_sprite[1].he);
+			"texture/right_attack2.xpm", &maps->attack_sprite[1].he, &maps->attack_sprite[1].he);
 	maps->attack_sprite[2].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/attack3.xpm", &maps->attack_sprite[2].he, &maps->attack_sprite[2].he);
+			"texture/right_attack3.xpm", &maps->attack_sprite[2].he, &maps->attack_sprite[2].he);
 	maps->attack_sprite[3].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/attack4.xpm", &maps->attack_sprite[3].he, &maps->attack_sprite[3].he);
+			"texture/right_attack4.xpm", &maps->attack_sprite[3].he, &maps->attack_sprite[3].he);
 	maps->attack_sprite[4].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/attack5.xpm", &maps->attack_sprite[4].he, &maps->attack_sprite[4].he);
+			"texture/right_attack5.xpm", &maps->attack_sprite[4].he, &maps->attack_sprite[4].he);
 	maps->attack_sprite[5].image = mlx_xpm_file_to_image(maps->mlx, \
-			"texture/attack6.xpm", &maps->attack_sprite[5].he, &maps->attack_sprite[5].he);
+			"texture/right_attack6.xpm", &maps->attack_sprite[5].he, &maps->attack_sprite[5].he);
+	maps->attack_sprite[6].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/left_attack1.xpm", &maps->attack_sprite[6].he, &maps->attack_sprite[6].he);
+	maps->attack_sprite[7].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/left_attack2.xpm", &maps->attack_sprite[7].he, &maps->attack_sprite[7].he);
+	maps->attack_sprite[8].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/left_attack3.xpm", &maps->attack_sprite[8].he, &maps->attack_sprite[8].he);
+	maps->attack_sprite[9].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/left_attack4.xpm", &maps->attack_sprite[9].he, &maps->attack_sprite[9].he);
+	maps->attack_sprite[10].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/left_attack5.xpm", &maps->attack_sprite[10].he, &maps->attack_sprite[10].he);
+	maps->attack_sprite[11].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/left_attack6.xpm", &maps->attack_sprite[11].he, &maps->attack_sprite[11].he);
 }
 
 void	image_init(t_param *maps)

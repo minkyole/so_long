@@ -44,7 +44,12 @@ int	draw(t_param *maps)
 	}
 	if (maps->check_attack == 1)
 	{
-		draw_attack(attack_cnt, maps, maps->user.x + 1);
+		draw_right_attack(attack_cnt, maps, maps->user.x + 1);
+		attack_cnt++;
+	}
+	else if (maps->check_attack == 2)
+	{
+		draw_left_attack(attack_cnt, maps, maps->user.x - 2);
 		attack_cnt++;
 	}
 	else

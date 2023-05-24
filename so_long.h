@@ -40,7 +40,7 @@ typedef struct s_param
 	t_map	chase;
 	t_map	potal[2];
 	t_map	enemy_sprite[8];
-	t_map	attack_sprite[6];
+	t_map	attack_sprite[12];
 	void	*mlx;
 	void	*win;
 	int		move_cnt;
@@ -98,6 +98,6 @@ void			draw_enemy_l(int cnt, t_param *maps, unsigned long long i);
 void			user_sprite_init(t_param *maps);
 void			enemy_sprite_init(t_param *maps);
 
-void			draw_attack(int cnt, t_param *maps, int i);
-void			draw_attack2(t_param *maps, int i);
+void			 draw_left_attack(int cnt, t_param *maps, int i);
+void			 draw_right_attack(int cnt, t_param *maps, int i);
 #endif
