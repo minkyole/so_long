@@ -13,10 +13,12 @@
 #include "so_long.h"
 #include "libft.h"
 
+
 int	draw(t_param *maps)
 {
 	unsigned long long	i;
 	static long long	cnt;
+	static int			attack_cnt;
 
 	i = 0;
 	while (maps->map[i])
@@ -40,6 +42,13 @@ int	draw(t_param *maps)
 			draw_enemy_l(cnt, maps, i);
 		i++;
 	}
+	if (maps->check_attack == 1)
+	{
+		draw_attack(attack_cnt, maps, maps->user.x + 1);
+		attack_cnt++;
+	}
+	else
+		attack_cnt = 0;
 	cnt++;
 	return (0);
 }
@@ -81,6 +90,7 @@ int	so_long(char *game_map)
 	image_init(&maps);
 	maps.user.x = 0;
 	maps.user.direction = 1;
+	maps.check_attack = 0;
 	mlx_key_hook(maps.win, &key_press, &maps);
 	mlx_loop_hook(maps.mlx, &draw, &maps);
 	mlx_hook(maps.win, 17, 0, &red_botton_delete, &maps);

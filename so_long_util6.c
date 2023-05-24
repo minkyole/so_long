@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include "libft.h"
 
 void	draw_image(int flag, t_param *maps, unsigned long long i)
 {
@@ -122,4 +123,32 @@ void	draw_user_r(int cnt, t_param *maps, unsigned long long i)
 	maps->user.x = i;
 }
 
-
+void draw_attack(int cnt, t_param *maps, int i)
+{
+	if (cnt % 30 <= 5)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->attack_sprite[0]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 30 <= 10)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->attack_sprite[1]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 30 <= 15)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->attack_sprite[2]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 30 <= 20)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->attack_sprite[3]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 30 <= 25)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->attack_sprite[4]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 30 <= 30)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->attack_sprite[5]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);	
+	if (cnt % 30 == 29)
+		maps->check_attack = 0;
+}

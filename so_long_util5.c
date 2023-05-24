@@ -95,6 +95,22 @@ void	enemy_sprite_init(t_param *maps)
 			"texture/lg4.xpm", &maps->enemy_sprite[7].he, &maps->enemy_sprite[7].he);
 }
 
+void	attack_sprite_init(t_param *maps)
+{
+	maps->attack_sprite[0].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/attack1.xpm", &maps->attack_sprite[0].he, &maps->attack_sprite[0].he);
+	maps->attack_sprite[1].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/attack2.xpm", &maps->attack_sprite[1].he, &maps->attack_sprite[1].he);
+	maps->attack_sprite[2].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/attack3.xpm", &maps->attack_sprite[2].he, &maps->attack_sprite[2].he);
+	maps->attack_sprite[3].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/attack4.xpm", &maps->attack_sprite[3].he, &maps->attack_sprite[3].he);
+	maps->attack_sprite[4].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/attack5.xpm", &maps->attack_sprite[4].he, &maps->attack_sprite[4].he);
+	maps->attack_sprite[5].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/attack6.xpm", &maps->attack_sprite[5].he, &maps->attack_sprite[5].he);
+}
+
 void	image_init(t_param *maps)
 {
 	maps->win = mlx_new_window(maps->mlx, maps->win_width * 64, \
@@ -113,4 +129,5 @@ void	image_init(t_param *maps)
 			"texture/open_potal.xpm", &maps->potal[1].he, &maps->potal[1].he);
 	user_sprite_init(maps);
 	enemy_sprite_init(maps);
+	attack_sprite_init(maps);
 }

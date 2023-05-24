@@ -15,6 +15,16 @@
 
 int	key_press(int keycode, t_param *maps)
 {
+	if (keycode == KEY_ATTACK)
+	{
+		if (maps->map[maps->user.x + 2] == 'L' || maps->map[maps->user.x + 2] == 'R')
+			maps->map[maps->user.x + 2] = '0';
+		if (maps->map[maps->user.x + 1] == 'L'|| maps->map[maps->user.x + 1] == 'R')
+			maps->map[maps->user.x + 1] = '0';
+		maps->check_attack = 1;
+	}
+	if (maps->check_attack == 1)
+		return (0);
 	if (keycode == KEY_LEFT)
 		maps->user.direction = 2;
 	else if (keycode == KEY_RIGHT)

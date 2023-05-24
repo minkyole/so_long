@@ -20,6 +20,7 @@
 # define KEY_DOWN	125
 # define KEY_LEFT	123
 # define KEY_RIGHT	124
+# define KEY_ATTACK	7
 
 typedef struct s_map
 {
@@ -39,6 +40,7 @@ typedef struct s_param
 	t_map	chase;
 	t_map	potal[2];
 	t_map	enemy_sprite[8];
+	t_map	attack_sprite[6];
 	void	*mlx;
 	void	*win;
 	int		move_cnt;
@@ -46,6 +48,7 @@ typedef struct s_param
 	int		win_height;
 	int		collection;
 	char	*map;
+	int		check_attack;
 }			t_param;
 
 typedef struct s_map_check
@@ -94,4 +97,7 @@ void			draw_enemy_r(int cnt, t_param *maps, unsigned long long i);
 void			draw_enemy_l(int cnt, t_param *maps, unsigned long long i);
 void			user_sprite_init(t_param *maps);
 void			enemy_sprite_init(t_param *maps);
+
+void			draw_attack(int cnt, t_param *maps, int i);
+void			draw_attack2(t_param *maps, int i);
 #endif
