@@ -42,11 +42,7 @@ void	check_enemy2(t_param *maps)
 	{
 		if (maps->map[i] == 'L' || maps->map[i] == 'R')
 		{
-			if (maps->map[i - maps->win_width - 1] == 'P')
-				exit(0);
-			else if (maps->map[i - maps->win_width + 1] == 'P')
-				exit(0);
-			else if (maps->map[i - 1] == 'P')
+			if (maps->map[i - 1] == 'P')
 				exit(0);
 			else if (maps->map[i + 1] == 'P')
 				exit(0);
