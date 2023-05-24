@@ -42,6 +42,17 @@ int	draw(t_param *maps)
 			draw_enemy_l(cnt, maps, i);
 		i++;
 	}
+	int temp;
+	int	temp2 = ((maps->win_width + 1) * (maps->win_height + 1)) - 2;
+	temp = maps->move_cnt;
+
+	while ((int)i <= temp2)
+	{
+		draw_image(1, maps, temp2);
+		draw_score(temp % 10, maps, temp2);
+		temp = temp / 10;
+		temp2--;
+	}
 	if (maps->check_attack == 1)
 	{
 		draw_right_attack(attack_cnt, maps, maps->user.x + 1);
@@ -79,7 +90,7 @@ void	map_cnt(t_param *maps)
 	maps->win_width = (i - maps->win_height) / maps->win_height;
 	mlx_get_screen_size(maps->mlx, &max_win_width, &max_win_height);
 	if (max_win_width < maps->win_width * 64 || \
-	max_win_height < maps->win_height * 64)
+	max_win_height < (maps->win_height + 1) * 64)
 		error(4);
 	maps->move_cnt = 0;
 }

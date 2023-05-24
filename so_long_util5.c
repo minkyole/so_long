@@ -122,7 +122,7 @@ void	attack_sprite_init(t_param *maps)
 void	image_init(t_param *maps)
 {
 	maps->win = mlx_new_window(maps->mlx, maps->win_width * 64, \
-			maps->win_height * 64, "DrawMap");
+			(maps->win_height + 1) * 64, "minkyole's so_long");
 	maps->user.image = mlx_xpm_file_to_image(maps->mlx, \
 			"texture/p.xpm", &maps->user.he, &maps->user.he);
 	maps->wall.image = mlx_xpm_file_to_image(maps->mlx, \
@@ -138,4 +138,29 @@ void	image_init(t_param *maps)
 	user_sprite_init(maps);
 	enemy_sprite_init(maps);
 	attack_sprite_init(maps);
+	keybord_init(maps);
+}
+
+void	keybord_init(t_param *maps)
+{
+	maps->keybord[0].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord0.xpm", &maps->keybord[0].he, &maps->keybord[0].he);
+	maps->keybord[1].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord1.xpm", &maps->keybord[1].he, &maps->keybord[1].he);
+	maps->keybord[2].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord2.xpm", &maps->keybord[2].he, &maps->keybord[2].he);
+	maps->keybord[3].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord3.xpm", &maps->keybord[3].he, &maps->keybord[3].he);
+	maps->keybord[4].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord4.xpm", &maps->keybord[4].he, &maps->keybord[4].he);
+	maps->keybord[5].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord5.xpm", &maps->keybord[5].he, &maps->keybord[5].he);
+	maps->keybord[6].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord6.xpm", &maps->keybord[6].he, &maps->keybord[6].he);
+	maps->keybord[7].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord7.xpm", &maps->keybord[7].he, &maps->keybord[7].he);
+	maps->keybord[8].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord8.xpm", &maps->keybord[8].he, &maps->keybord[8].he);
+	maps->keybord[9].image = mlx_xpm_file_to_image(maps->mlx, \
+			"texture/keybord9.xpm", &maps->keybord[9].he, &maps->keybord[9].he);
 }

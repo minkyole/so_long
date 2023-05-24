@@ -3,4 +3,4 @@ Summary: This project is a very small 2D game. Its purpose is to make you work w
 
 해야 할 것들
 1. 화면상에 움직임 횟수 출력
-   적을 피할수 없는 경로일 경우 오류
+   맵이 세로로 일자일 경우 오류 출력

@@ -41,6 +41,50 @@ void	draw_image(int flag, t_param *maps, unsigned long long i)
 			i / (maps->win_width + 1) * 64);
 }
 
+void	draw_score(int flag, t_param *maps, unsigned long long i)
+{
+	if (flag == 0)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[0]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (flag == 1)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[1]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (flag == 2)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[2]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (flag == 3)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[3]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (flag == 4)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[4]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (flag == 5)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[5]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (flag == 6)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[6]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (flag == 7)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[7]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (flag == 8)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[8]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (flag == 9)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->keybord[9]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+}
+
 void	draw_enemy_r(int cnt, t_param *maps, unsigned long long i)
 {
 	if (cnt % 80 <= 20)

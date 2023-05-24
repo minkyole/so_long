@@ -33,6 +33,8 @@ int	key_press(int keycode, t_param *maps)
 	}
 	if (maps->check_attack == 1 || maps->check_attack == 2)
 		return (0);
+	if (maps->move_cnt % 30 == 29)
+		enemy_add(maps);
 	if (keycode == KEY_LEFT)
 		maps->user.direction = 2;
 	else if (keycode == KEY_RIGHT)
@@ -141,7 +143,7 @@ void	enemy_add(t_param *maps)
 	int	cnt;
 
 	enemy = 0;
-	cnt = 100;
+	cnt = 500;
 	if (maps->win_width * maps->win_height < 90)
 		enemy = 1;
 	else if (maps->win_width * maps->win_height < 150)
