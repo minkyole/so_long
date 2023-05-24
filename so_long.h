@@ -40,7 +40,7 @@ typedef struct s_param
 	t_map	chase;
 	t_map	potal[2];
 	t_map	enemy_sprite[8];
-	t_map	attack_sprite[12];
+	t_map	attack_sprite[24];
 	t_map	keybord[10];
 	void	*mlx;
 	void	*win;
@@ -50,6 +50,7 @@ typedef struct s_param
 	int		collection;
 	char	*map;
 	int		check_attack;
+	int		waitting_attack;
 }			t_param;
 
 typedef struct s_map_check
@@ -84,10 +85,9 @@ int				so_long(char *game_map);
 void			draw_image(int flag, t_param *maps, unsigned long long i);
 void			user_move(t_param *maps, int flag);
 void			error(int flag);
-void 			enemy_add(t_param *maps);
 int				check_enemy(int keycode, t_param *maps);
 void			check_enemy2(t_param *maps);
-void			enemy_add(t_param *maps);
+void			enemy_add(t_param *maps, int enemy, int enemy_position, int cnt);
 void			enemy_move(t_param *maps, int enemy_position);
 void			move_enemy(t_param *maps, int flag, int enemy_position);
 void			enemy_set(t_param *maps);
@@ -98,9 +98,16 @@ void			draw_enemy_r(int cnt, t_param *maps, unsigned long long i);
 void			draw_enemy_l(int cnt, t_param *maps, unsigned long long i);
 void			user_sprite_init(t_param *maps);
 void			enemy_sprite_init(t_param *maps);
-void			draw_left_attack(int cnt, t_param *maps, int i);
-void			draw_right_attack(int cnt, t_param *maps, int i);
+void			attack_sprite_init1(t_param *maps);
+void			attack_sprite_init2(t_param *maps);
+void			attack_sprite_init3(t_param *maps);
 void			keybord_init(t_param *maps);
-
-void			draw_score(int flag, t_param *maps, unsigned long long i);
+int				key_attack_left_right(int keycode, t_param *maps, int user);
+int				key_attack_up_down(int keycode, t_param *maps);
+void			draw_right_attack(int cnt, t_param *maps, int i, int width);
+void			draw_left_attack(int cnt, t_param *maps, int i, int width);
+void			draw_down_attack(int cnt, t_param *maps, int i, int width);
+void			draw_up_attack(int cnt, t_param *maps, int i, int width);
+void			draw_score1(int flag, t_param *maps, unsigned long long i);
+void			draw_score2(int flag, t_param *maps, unsigned long long i);
 #endif

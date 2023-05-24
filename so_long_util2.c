@@ -6,65 +6,78 @@
 /*   By: minkyole <minkyole@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:55:05 by minkyole          #+#    #+#             */
-/*   Updated: 2023/05/22 14:51:49 by minkyole         ###   ########.fr       */
+/*   Updated: 2023/05/24 20:24:18 by minkyole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "libft.h"
 
+void	draw_attack(t_param *maps, int i, int score_end, int move_cnt)
+{
+	static int	attack_cnt;
+
+	while (i <= score_end)
+	{
+		draw_image(1, maps, score_end);
+		draw_score1(move_cnt % 10, maps, score_end);
+		draw_score2(move_cnt % 10, maps, score_end);
+		move_cnt = move_cnt / 10;
+		score_end--;
+	}
+	if (maps->check_attack == 1)
+		draw_right_attack(attack_cnt, maps, \
+		maps->user.x + 1, (maps->win_width + 1));
+	else if (maps->check_attack == 2)
+		draw_left_attack(attack_cnt, maps, \
+		maps->user.x - 2, (maps->win_width + 1));
+	else if (maps->check_attack == 3)
+		draw_up_attack(attack_cnt, maps, \
+		maps->user.x - maps->win_width - 1, (maps->win_width + 1));
+	else if (maps->check_attack == 4)
+		draw_down_attack(attack_cnt, maps, \
+		maps->user.x, (maps->win_width + 1));
+	else
+		attack_cnt = 0;
+	attack_cnt++;
+}
+
+void	draw_map(t_param *maps, unsigned long long i, int cnt)
+{
+	draw_image(1, maps, i);
+	if (maps->map[i] == '1')
+		draw_image(2, maps, i);
+	else if (maps->map[i] == 'P' && \
+	(maps->user.direction == 1 || maps->user.direction == 3))
+		draw_user_r(cnt, maps, i);
+	else if (maps->map[i] == 'P' && \
+	(maps->user.direction == 2 || maps->user.direction == 4))
+		draw_user_l(cnt, maps, i);
+	else if (maps->map[i] == 'C')
+		draw_image(4, maps, i);
+	else if (maps->map[i] == 'E' && maps->collection == 0)
+		draw_image(6, maps, i);
+	else if (maps->map[i] == 'E')
+		draw_image(5, maps, i);
+	else if (maps->map[i] == 'R')
+		draw_enemy_r(cnt, maps, i);
+	else if (maps->map[i] == 'L')
+		draw_enemy_l(cnt, maps, i);
+}
 
 int	draw(t_param *maps)
 {
 	unsigned long long	i;
 	static long long	cnt;
-	static int			attack_cnt;
 
 	i = 0;
 	while (maps->map[i])
 	{
-		draw_image(1, maps, i);
-		if (maps->map[i] == '1')
-			draw_image(2, maps, i);
-		else if (maps->map[i] == 'P' && maps->user.direction == 1)
-			draw_user_r(cnt, maps, i);
-		else if (maps->map[i] == 'P' && maps->user.direction == 2)
-			draw_user_l(cnt, maps, i);
-		else if (maps->map[i] == 'C')
-			draw_image(4, maps, i);
-		else if (maps->map[i] == 'E' && maps->collection == 0)
-			draw_image(6, maps, i);
-		else if (maps->map[i] == 'E')
-			draw_image(5, maps, i);
-		else if (maps->map[i] == 'R')
-			draw_enemy_r(cnt, maps, i);
-		else if (maps->map[i] == 'L')
-			draw_enemy_l(cnt, maps, i);
+		draw_map(maps, i, cnt);
 		i++;
 	}
-	int temp;
-	int	temp2 = ((maps->win_width + 1) * (maps->win_height + 1)) - 2;
-	temp = maps->move_cnt;
-
-	while ((int)i <= temp2)
-	{
-		draw_image(1, maps, temp2);
-		draw_score(temp % 10, maps, temp2);
-		temp = temp / 10;
-		temp2--;
-	}
-	if (maps->check_attack == 1)
-	{
-		draw_right_attack(attack_cnt, maps, maps->user.x + 1);
-		attack_cnt++;
-	}
-	else if (maps->check_attack == 2)
-	{
-		draw_left_attack(attack_cnt, maps, maps->user.x - 2);
-		attack_cnt++;
-	}
-	else
-		attack_cnt = 0;
+	draw_attack(maps, i, ((maps->win_width + 1) * \
+	(maps->win_height + 1)) - 2, maps->move_cnt);
 	cnt++;
 	return (0);
 }
@@ -101,12 +114,13 @@ int	so_long(char *game_map)
 
 	maps.map = game_map;
 	map_cnt(&maps);
-	enemy_add(&maps);
+	enemy_add(&maps, 0, 0, 500);
 	maps.mlx = mlx_init();
 	image_init(&maps);
 	maps.user.x = 0;
 	maps.user.direction = 1;
 	maps.check_attack = 0;
+	maps.waitting_attack = 0;
 	mlx_key_hook(maps.win, &key_press, &maps);
 	mlx_loop_hook(maps.mlx, &draw, &maps);
 	mlx_hook(maps.win, 17, 0, &red_botton_delete, &maps);

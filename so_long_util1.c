@@ -15,40 +15,27 @@
 
 void	dfs(char *map, t_map_check *map_check, int player)
 {
+	int	move[4];
+	int	i;
+
+	move[0] = player - map_check->x - 1;
+	move[1] = player + 1;
+	move[2] = player - 1;
+	move[3] = player + map_check->x + 1;
+	i = 0;
 	map_check->dfs_map[player] = 1;
 	if (map[player] == 'C')
 		map_check->dfs_c += 1;
-	if (map[player - map_check->x - 1] != '1' && \
-			map_check->dfs_map[player - map_check->x - 1] != 1)
+	while (i != 4)
 	{
-		if (map[player - map_check->x - 1] == 'E')
-			map_check->dfs_e += 1;
-		else
-			dfs(map, map_check, player - map_check->x - 1);
-	}
-	if (map[player + 1] != '1' && \
-			map_check->dfs_map[player + 1] != 1)
-	{
-		if (map[player + 1] == 'E')
-			map_check->dfs_e += 1;
-		else
-			dfs(map, map_check, player + 1);
-	}
-	if (map[player - 1] != '1' && \
-			map_check->dfs_map[player - 1] != 1)
-	{
-		if (map[player - 1] == 'E')
-			map_check->dfs_e += 1;
-		else
-			dfs(map, map_check, player - 1);
-	}
-	if (map[player + map_check->x + 1] != '1' && \
-			map_check->dfs_map[player + map_check->x + 1] != 1)
-	{
-		if (map[player + map_check->x + 1] == 'E')
-			map_check->dfs_e += 1;
-		else
-			dfs(map, map_check, player + map_check->x + 1);
+		if (map[move[i]] != '1' && map_check->dfs_map[move[i]] != 1)
+		{
+			if (map[move[i]] == 'E')
+				map_check->dfs_e += 1;
+			else
+				dfs(map, map_check, move[i]);
+		}
+		i++;
 	}
 }
 

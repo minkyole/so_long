@@ -13,32 +13,60 @@
 #include "libft.h"
 #include "so_long.h"
 
-int	key_press(int keycode, t_param *maps)
+int	key_attack_up_down(int keycode, t_param *maps)
 {
-	if (keycode == KEY_ATTACK && maps->user.direction == 1)
+	if (maps->waitting_attack == 1 && keycode == KEY_UP)
 	{
-		if (maps->map[maps->user.x + 2] == 'L' || maps->map[maps->user.x + 2] == 'R')
-			maps->map[maps->user.x + 2] = '0';
-		if (maps->map[maps->user.x + 1] == 'L'|| maps->map[maps->user.x + 1] == 'R')
-			maps->map[maps->user.x + 1] = '0';
-		maps->check_attack = 1;
+		if (maps->map[maps->user.x - maps->win_width - 1] == 'L' || \
+		maps->map[maps->user.x - maps->win_width - 1] == 'R')
+			maps->map[maps->user.x - maps->win_width - 1] = '0';
+		maps->user.direction = 3;
+		maps->check_attack = 3;
+		maps->waitting_attack = 0;
+		return (1);
 	}
-	if (keycode == KEY_ATTACK && maps->user.direction == 2)
+	if (maps->waitting_attack == 1 && keycode == KEY_DOWN)
 	{
-		if (maps->map[maps->user.x - 2] == 'L' || maps->map[maps->user.x - 2] == 'R')
-			maps->map[maps->user.x - 2] = '0';
-		if (maps->map[maps->user.x - 1] == 'L'|| maps->map[maps->user.x - 1] == 'R')
-			maps->map[maps->user.x - 1] = '0';
-		maps->check_attack = 2;
+		if (maps->map[maps->user.x + maps->win_width + 1] == 'L' || \
+		maps->map[maps->user.x + maps->win_width + 1] == 'R')
+			maps->map[maps->user.x + maps->win_width + 1] = '0';
+		maps->user.direction = 4;
+		maps->check_attack = 4;
+		maps->waitting_attack = 0;
+		return (1);
 	}
-	if (maps->check_attack == 1 || maps->check_attack == 2)
-		return (0);
-	if (maps->move_cnt % 30 == 29)
-		enemy_add(maps);
-	if (keycode == KEY_LEFT)
-		maps->user.direction = 2;
-	else if (keycode == KEY_RIGHT)
+	return (0);
+}
+
+int	key_attack_left_right(int keycode, t_param *maps, int user)
+{
+	if (maps->waitting_attack == 1 && keycode == KEY_RIGHT)
+	{
+		if (maps->map[user + 2] == 'L' || maps->map[user + 2] == 'R')
+			maps->map[user + 2] = '0';
+		if (maps->map[user + 1] == 'L' || maps->map[user + 1] == 'R')
+			maps->map[user + 1] = '0';
 		maps->user.direction = 1;
+		maps->check_attack = 1;
+		maps->waitting_attack = 0;
+		return (1);
+	}
+	if (maps->waitting_attack == 1 && keycode == KEY_LEFT)
+	{
+		if (maps->map[user - 2] == 'L' || maps->map[user - 2] == 'R')
+			maps->map[user - 2] = '0';
+		if (maps->map[user - 1] == 'L' || maps->map[user - 1] == 'R')
+			maps->map[user - 1] = '0';
+		maps->user.direction = 2;
+		maps->check_attack = 2;
+		maps->waitting_attack = 0;
+		return (1);
+	}
+	return (0);
+}
+
+void	move_map(int keycode, t_param *maps)
+{
 	if (move_land(keycode, maps))
 	{
 		maps->move_cnt += 1;
@@ -58,10 +86,36 @@ int	key_press(int keycode, t_param *maps)
 	}
 	if (check_enemy(keycode, maps))
 		exit(0);
-	if (keycode == KEY_ESC)
-		exit(0);
 	check_enemy2(maps);
 	enemy_set(maps);
+	maps->waitting_attack = 0;
+}
+
+int	key_press(int keycode, t_param *maps)
+{
+	if (keycode == KEY_ESC)
+		exit(0);
+	if (keycode == KEY_ATTACK)
+	{
+		maps->waitting_attack = 1;
+		return (0);
+	}
+	if (key_attack_up_down(keycode, maps) || \
+	key_attack_left_right(keycode, maps, maps->user.x))
+		return (0);
+	if (maps->move_cnt % 30 == 29)
+		enemy_add(maps, 0, 0, 500);
+	if (keycode == KEY_RIGHT)
+		maps->user.direction = 1;
+	else if (keycode == KEY_LEFT)
+		maps->user.direction = 2;
+	else if (keycode == KEY_UP)
+		maps->user.direction = 3;
+	else if (keycode == KEY_DOWN)
+		maps->user.direction = 4;
+	else
+		return (0);
+	move_map(keycode, maps);
 	return (0);
 }
 
@@ -84,85 +138,5 @@ void	enemy_set(t_param *maps)
 		else if (maps->map[i] == 'l')
 			maps->map[i] = 'L';
 		i++;
-	}
-}
-
-void	move_enemy(t_param *maps, int flag, int enemy_position)
-{
-	if (flag == 1)
-	{
-		(maps->map)[enemy_position] = '0';
-		(maps->map)[enemy_position - maps->win_width - 1] = 'l';
-	}
-	else if (flag == 2)
-	{
-		(maps->map)[enemy_position] = '0';
-		(maps->map)[enemy_position + maps->win_width + 1] = 'r';
-	}
-	else if (flag == 3)
-	{
-		(maps->map)[enemy_position] = '0';
-		(maps->map)[enemy_position - 1] = 'l';
-	}
-	else if (flag == 4)
-	{
-		(maps->map)[enemy_position] = '0';
-		(maps->map)[enemy_position + 1] = 'r';
-	}
-}
-
-void	enemy_move(t_param *maps, int enemy_position)
-{
-	int	keycode;
-	int	cnt;
-
-	cnt = 0;
-	while (1)
-	{
-		keycode = (rand() % 4) + 123;
-		if (keycode == KEY_UP && \
-				(maps->map)[enemy_position - maps->win_width - 1] == '0')
-			return (move_enemy(maps, 1, enemy_position));
-		else if (keycode == KEY_DOWN && \
-				(maps->map)[enemy_position + maps->win_width + 1] == '0')
-			return (move_enemy(maps, 2, enemy_position));
-		else if (keycode == KEY_LEFT && (maps->map)[enemy_position - 1] == '0')
-			return (move_enemy(maps, 3, enemy_position));
-		else if (keycode == KEY_RIGHT && (maps->map)[enemy_position + 1] == '0')
-			return (move_enemy(maps, 4, enemy_position));
-		cnt++;
-		if (cnt == 10)
-			return ;
-	}
-}
-
-void	enemy_add(t_param *maps)
-{
-	int	enemy;
-	int	enemy_position;
-	int	cnt;
-
-	enemy = 0;
-	cnt = 500;
-	if (maps->win_width * maps->win_height < 90)
-		enemy = 1;
-	else if (maps->win_width * maps->win_height < 150)
-		enemy = 2;
-	else if (maps->win_width * maps->win_height < 210)
-		enemy = 3;
-	else if (maps->win_width * maps->win_height < 270)
-		enemy = 4;
-	else
-		enemy = 5;
-	srand(time(NULL));
-	while (enemy != 0 && cnt != 0)
-	{
-		enemy_position = rand() % ((maps->win_width + 1) * maps->win_height);
-		if ((maps->map)[enemy_position] == '0')
-		{
-			(maps->map)[enemy_position] = 'L';
-			enemy--;
-		}
-		cnt--;
 	}
 }
