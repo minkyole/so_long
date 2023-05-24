@@ -18,20 +18,38 @@ void	dfs(char *map, t_map_check *map_check, int player)
 	map_check->dfs_map[player] = 1;
 	if (map[player] == 'C')
 		map_check->dfs_c += 1;
-	else if (map[player] == 'E')
-		map_check->dfs_e += 1;
 	if (map[player - map_check->x - 1] != '1' && \
 			map_check->dfs_map[player - map_check->x - 1] != 1)
-		dfs(map, map_check, player - map_check->x - 1);
+	{
+		if (map[player - map_check->x - 1] == 'E')
+			map_check->dfs_e += 1;
+		else
+			dfs(map, map_check, player - map_check->x - 1);
+	}
 	if (map[player + 1] != '1' && \
 			map_check->dfs_map[player + 1] != 1)
-		dfs(map, map_check, player + 1);
+	{
+		if (map[player + 1] == 'E')
+			map_check->dfs_e += 1;
+		else
+			dfs(map, map_check, player + 1);
+	}
 	if (map[player - 1] != '1' && \
 			map_check->dfs_map[player - 1] != 1)
-		dfs(map, map_check, player - 1);
+	{
+		if (map[player - 1] == 'E')
+			map_check->dfs_e += 1;
+		else
+			dfs(map, map_check, player - 1);
+	}
 	if (map[player + map_check->x + 1] != '1' && \
 			map_check->dfs_map[player + map_check->x + 1] != 1)
-		dfs(map, map_check, player + map_check->x + 1);
+	{
+		if (map[player + map_check->x + 1] == 'E')
+			map_check->dfs_e += 1;
+		else
+			dfs(map, map_check, player + map_check->x + 1);
+	}
 }
 
 int	check_map_closed(char *map, t_map_check *map_check, int i)
@@ -108,7 +126,7 @@ int	check_map(char *map)
 	if (map_check.dfs_map == NULL)
 		return (1);
 	dfs(map, &map_check, map_check.player);
-	if (map_check.dfs_c == map_check.c && map_check.dfs_e == map_check.e)
+	if (map_check.dfs_c == map_check.c && map_check.dfs_e >= 1)
 	{
 		free(map_check.dfs_map);
 		return (0);

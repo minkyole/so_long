@@ -29,13 +29,11 @@ void	user_move(t_param *maps, int flag)
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x - 1] = 'P';
-		maps->user.direction = 2;
 	}
 	else if (flag == 4)
 	{
 		(maps->map)[maps->user.x] = '0';
 		(maps->map)[maps->user.x + 1] = 'P';
-		maps->user.direction = 1;
 	}
 }
 

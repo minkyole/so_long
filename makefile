@@ -16,7 +16,7 @@ MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework Appkit
 NAME = so_long
 LIBFT = ./libft/libft.a
 LIBFT_DIR = libft
-SRCS = so_long.c so_long_util1.c so_long_util2.c so_long_util3.c so_long_util4.c so_long_util5.c
+SRCS = so_long.c so_long_util1.c so_long_util2.c so_long_util3.c so_long_util4.c so_long_util5.c so_long_util6.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY : clean fclean re all bonus

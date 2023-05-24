@@ -12,10 +12,13 @@
 
 #include "libft.h"
 #include "so_long.h"
-#include <stdio.h>
 
 int	key_press(int keycode, t_param *maps)
 {
+	if (keycode == KEY_LEFT)
+		maps->user.direction = 2;
+	else if (keycode == KEY_RIGHT)
+		maps->user.direction = 1;
 	if (move_land(keycode, maps))
 	{
 		maps->move_cnt += 1;
@@ -117,8 +120,10 @@ void	enemy_add(t_param *maps)
 {
 	int	enemy;
 	int	enemy_position;
+	int	cnt;
 
 	enemy = 0;
+	cnt = 100;
 	if (maps->win_width * maps->win_height < 90)
 		enemy = 1;
 	else if (maps->win_width * maps->win_height < 150)
@@ -130,7 +135,7 @@ void	enemy_add(t_param *maps)
 	else
 		enemy = 5;
 	srand(time(NULL));
-	while (enemy != 0)
+	while (enemy != 0 && cnt != 0)
 	{
 		enemy_position = rand() % ((maps->win_width + 1) * maps->win_height);
 		if ((maps->map)[enemy_position] == '0')
@@ -138,5 +143,6 @@ void	enemy_add(t_param *maps)
 			(maps->map)[enemy_position] = 'L';
 			enemy--;
 		}
+		cnt--;
 	}
 }
