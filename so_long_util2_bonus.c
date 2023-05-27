@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long_util2.c                                    :+:      :+:    :+:   */
+/*   so_long_util2_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minkyole <minkyole@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 21:55:05 by minkyole          #+#    #+#             */
-/*   Updated: 2023/05/24 20:24:18 by minkyole         ###   ########.fr       */
+/*   Created: 2023/05/27 14:45:57 by minkyole          #+#    #+#             */
+/*   Updated: 2023/05/27 14:46:03 by minkyole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 #include "libft.h"
 
 void	draw_attack(t_param *maps, int i, int score_end, int move_cnt)
@@ -59,6 +59,10 @@ void	draw_map(t_param *maps, unsigned long long i, int cnt)
 		draw_image(6, maps, i);
 	else if (maps->map[i] == 'E')
 		draw_image(5, maps, i);
+	else if (maps->map[i] == 'R')
+		draw_enemy_r(cnt, maps, i);
+	else if (maps->map[i] == 'L')
+		draw_enemy_l(cnt, maps, i);
 }
 
 int	draw(t_param *maps)
@@ -110,6 +114,7 @@ int	so_long(char *game_map)
 
 	maps.map = game_map;
 	map_cnt(&maps);
+	enemy_add(&maps, 0, 0, 500);
 	maps.mlx = mlx_init();
 	image_init(&maps);
 	maps.user.x = 0;

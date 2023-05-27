@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long_util6.c                                    :+:      :+:    :+:   */
+/*   so_long_util6_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minkyole <minkyole@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/22 23:41:03 by minkyole          #+#    #+#             */
-/*   Updated: 2023/05/22 23:41:04 by minkyole         ###   ########.fr       */
+/*   Created: 2023/05/27 14:47:10 by minkyole          #+#    #+#             */
+/*   Updated: 2023/05/27 14:47:12 by minkyole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 #include "libft.h"
 
 void	draw_image(int flag, t_param *maps, unsigned long long i)
@@ -86,5 +86,45 @@ void	draw_score2(int flag, t_param *maps, unsigned long long i)
 	else if (flag == 9)
 		mlx_put_image_to_window(maps->mlx, maps->win, \
 			(maps->keybord[9]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+}
+
+void	draw_enemy_r(int cnt, t_param *maps, unsigned long long i)
+{
+	if (cnt % 80 <= 20)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[0]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 80 <= 40)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[1]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 80 <= 60)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[2]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[3]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+}
+
+void	draw_enemy_l(int cnt, t_param *maps, unsigned long long i)
+{
+	if (cnt % 80 <= 20)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[4]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 80 <= 40)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[5]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else if (cnt % 80 <= 60)
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[6]).image, i % (maps->win_width + 1) * 64, \
+			i / (maps->win_width + 1) * 64);
+	else
+		mlx_put_image_to_window(maps->mlx, maps->win, \
+			(maps->enemy_sprite[7]).image, i % (maps->win_width + 1) * 64, \
 			i / (maps->win_width + 1) * 64);
 }

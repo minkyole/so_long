@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long_util7.c                                    :+:      :+:    :+:   */
+/*   so_long_util10_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minkyole <minkyole@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 20:48:25 by minkyole          #+#    #+#             */
-/*   Updated: 2023/05/24 20:48:26 by minkyole         ###   ########.fr       */
+/*   Created: 2023/05/27 14:45:30 by minkyole          #+#    #+#             */
+/*   Updated: 2023/05/27 14:45:33 by minkyole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	draw_user_l(int cnt, t_param *maps, unsigned long long i)
 {

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long_util8.c                                    :+:      :+:    :+:   */
+/*   so_long_util8_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minkyole <minkyole@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 21:17:15 by minkyole          #+#    #+#             */
-/*   Updated: 2023/05/24 21:17:17 by minkyole         ###   ########.fr       */
+/*   Created: 2023/05/27 14:47:37 by minkyole          #+#    #+#             */
+/*   Updated: 2023/05/27 14:47:39 by minkyole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	image_init(t_param *maps)
 {
@@ -29,6 +29,7 @@ void	image_init(t_param *maps)
 	maps->potal[1].image = mlx_xpm_file_to_image(maps->mlx, \
 			"texture/open_potal.xpm", &maps->potal[1].wi, &maps->potal[1].he);
 	user_sprite_init(maps);
+	enemy_sprite_init(maps);
 	attack_sprite_init1(maps);
 	attack_sprite_init2(maps);
 	attack_sprite_init3(maps);

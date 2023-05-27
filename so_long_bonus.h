@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   so_long_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minkyole <minkyole@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
-# include "mlx/mlx.h"
+#ifndef SO_LONG_BONUS_H
+# define SO_LONG_BONUS_H
+# include "mlx/mlx_bonus.h"
 # include <fcntl.h>
+# include <time.h>
 # define KEY_ESC	53
 # define KEY_UP		126
 # define KEY_DOWN	125
@@ -38,6 +39,7 @@ typedef struct s_param
 	t_map	land;
 	t_map	chase;
 	t_map	potal[2];
+	t_map	enemy_sprite[8];
 	t_map	attack_sprite[24];
 	t_map	keybord[10];
 	void	*mlx;
@@ -83,10 +85,20 @@ int				so_long(char *game_map);
 void			draw_image(int flag, t_param *maps, unsigned long long i);
 void			user_move(t_param *maps, int flag);
 void			error(int flag);
+int				check_enemy(int keycode, t_param *maps);
+void			check_enemy2(t_param *maps);
+void			enemy_add(t_param *maps, int enemy, \
+					int enemy_position, int cnt);
+void			enemy_move(t_param *maps, int enemy_position);
+void			move_enemy(t_param *maps, int flag, int enemy_position);
+void			enemy_set(t_param *maps);
 void			image_init(t_param *maps);
 void			draw_user_l(int cnt, t_param *maps, unsigned long long i);
 void			draw_user_r(int cnt, t_param *maps, unsigned long long i);
+void			draw_enemy_r(int cnt, t_param *maps, unsigned long long i);
+void			draw_enemy_l(int cnt, t_param *maps, unsigned long long i);
 void			user_sprite_init(t_param *maps);
+void			enemy_sprite_init(t_param *maps);
 void			attack_sprite_init1(t_param *maps);
 void			attack_sprite_init2(t_param *maps);
 void			attack_sprite_init3(t_param *maps);

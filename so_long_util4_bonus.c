@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long_util4.c                                    :+:      :+:    :+:   */
+/*   so_long_util4_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minkyole <minkyole@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 22:44:09 by minkyole          #+#    #+#             */
-/*   Updated: 2023/05/20 22:44:12 by minkyole         ###   ########.fr       */
+/*   Created: 2023/05/27 14:46:34 by minkyole          #+#    #+#             */
+/*   Updated: 2023/05/27 14:46:36 by minkyole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 int	key_attack_up_down(int keycode, t_param *maps)
 {
@@ -84,6 +84,10 @@ void	move_map(int keycode, t_param *maps)
 		ft_printf("%d\n", maps->move_cnt);
 		exit(0);
 	}
+	if (check_enemy(keycode, maps))
+		exit(0);
+	check_enemy2(maps);
+	enemy_set(maps);
 	maps->waitting_attack = 0;
 }
 
@@ -99,6 +103,8 @@ int	key_press(int keycode, t_param *maps)
 	if (key_attack_up_down(keycode, maps) || \
 	key_attack_left_right(keycode, maps, maps->user.x))
 		return (0);
+	if (maps->move_cnt % 30 == 29)
+		enemy_add(maps, 0, 0, 500);
 	if (keycode == KEY_RIGHT)
 		maps->user.direction = 1;
 	else if (keycode == KEY_LEFT)
@@ -111,4 +117,26 @@ int	key_press(int keycode, t_param *maps)
 		return (0);
 	move_map(keycode, maps);
 	return (0);
+}
+
+void	enemy_set(t_param *maps)
+{
+	int	i;
+
+	i = 0;
+	while (maps->map[i])
+	{
+		if (maps->map[i] == 'R' || maps->map[i] == 'L')
+			enemy_move(maps, i);
+		i++;
+	}
+	i = 0;
+	while (maps->map[i])
+	{
+		if (maps->map[i] == 'r')
+			maps->map[i] = 'R';
+		else if (maps->map[i] == 'l')
+			maps->map[i] = 'L';
+		i++;
+	}
 }
