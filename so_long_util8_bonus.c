@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "so_long_bonus.h"
+#include "libft.h"
 
 void	image_init(t_param *maps)
 {
